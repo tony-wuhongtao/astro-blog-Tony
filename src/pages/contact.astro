@@ -1,0 +1,15 @@
+---
+import H1 from "../components/H1.astro";
+import Main from "../components/Main.astro";
+import BasicLayout from "../layouts/BasicLayout.astro";
+import ContactForm from "../components/ContactForm.svelte";
+---
+
+<BasicLayout title="Home">
+  <Main>
+    <H1 text="Contact" />
+    <div class="mb-20">
+      <ContactForm client:load />
+    </div>
+  </Main>
+</BasicLayout>
