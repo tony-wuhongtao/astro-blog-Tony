@@ -8,15 +8,9 @@ import BasicLayout from "../layouts/BasicLayout.astro";
 
 import { getCollection } from "astro:content";
 
-const page = Number(Astro.url.searchParams.get("page")) || 1;
-
-const postsPerPage = 4;
-const start = postsPerPage * (page - 1);
-const end = start + postsPerPage;
-
 const allPosts = await getCollection("posts");
 
-const posts = allPosts.slice(start, end);
+const posts = allPosts.slice(0, 4);
 const allCategories = allPosts.flatMap((post) => post.data.categories);
 const categories = Array.from(new Set(allCategories));
 ---
