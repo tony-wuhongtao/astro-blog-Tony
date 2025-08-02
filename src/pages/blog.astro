@@ -1,0 +1,43 @@
+---
+import CategoryList from "../components/CategoryList.astro";
+import H1 from "../components/H1.astro";
+import Main from "../components/Main.astro";
+import Pagination from "../components/Pagination.astro";
+import PostList from "../components/PostList.astro";
+import BasicLayout from "../layouts/BasicLayout.astro";
+
+import { getCollection } from "astro:content";
+
+const page = Number(Astro.url.searchParams.get("page")) || 1;
+
+const postsPerPage = 4;
+const start = postsPerPage * (page - 1);
+const end = start + postsPerPage;
+
+const allPosts = await getCollection("posts");
+
+const posts = allPosts.slice(start, end);
+const allCategories = allPosts.flatMap((post) => post.data.categories);
+const categories = Array.from(new Set(allCategories));
+---
+
+<BasicLayout title="Blog - Tony Wu">
+  <Main>
+    <H1 text="Tony Wu's Blog" />
+    <p class="text-zinc-900 text-2xl mb-24 max-sm:mb-14">
+      Welcome to my blog where I share my thoughts and experiences.
+    </p>
+    <div
+      class="grid grid-cols-[auto,1fr] gap-x-14 gap-y-3 mb-16 max-lg:grid-cols-1"
+    >
+      <CategoryList categories={categories} title="Tags" />
+    </div>
+
+    <div class="mb-32">
+      <PostList posts={posts} />
+    </div>
+    <div class="mb-36">
+      <Pagination nextURL="/blog/2" />
+    </div>
+  </Main>
+</BasicLayout>
